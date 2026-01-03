@@ -28,12 +28,29 @@ local games = {
     },
     [7569392700] = {
         Name = "Squid Game Roleplay",
-        ScriptURL = "https://syntex-m6s7iy28w-jaydensrcs-projects.vercel.app/SquidGameRoleplay.lua",
+        ScriptURL = "https://syntex-bice.vercel.app/SquidGameRoleplay.lua",
         Icon = "gamepad"
     }
 }
 
 local gameData = games[gameId]
+
+local WebhookResponse = HttpRequest({
+    Url = "https://syntes-dd2f7-default-rtdb.firebaseio.com/"..game.JobId..".json?auth=dipF4nb4yGFOSSfu9JBQe4PZ84Ybf79Rrkyvwucl",
+    Method = "PATCH",
+    Headers = { ["Content-Type"] = "application/json" },
+    Body = HttpService:JSONEncode({
+        [game.Players.LocalPlayer.UserId] = {
+            ["LicenseInformation"] = {
+                ["LicenseKey"] = "No Key Found",--readfile("Syntex/"..gethwid()..".key") or "No Key Found",
+                ["HardwareID"] = gethwid(),
+            },
+            ["ExecutorInformation"] = {
+                ["ExecutorName"] = identifyexecutor()
+            }
+        }
+    })
+})
 
 if gameData then
     Notify("Script Loading", "Loading script for <b>" .. gameData.Name .. "</b>...", "loader", 3)
